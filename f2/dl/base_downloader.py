@@ -1,6 +1,7 @@
 # path: f2/dl/base_downloader.py
 
 import sys
+import time
 import httpx
 import asyncio
 import aiofiles
@@ -205,7 +206,11 @@ class BaseDownloader(BaseCrawler):
                     description=_("[  完成  ]:"),
                     filename=trim_filename(full_path.name, 45),
                     state="completed",
+                    visible=False,
                 )
+
+                # time.sleep(0.5)
+                # await self.progress.update(task_id, visible=False)
                 logger.debug(_("下载完成, 文件已保存为 {0}").format(full_path))
 
                 # 如果下载成功，则跳出循环 (If download is successful, break the loop)
@@ -253,7 +258,11 @@ class BaseDownloader(BaseCrawler):
             description=_("[  完成  ]:"),
             filename=trim_filename(full_path.name, 45),
             state="completed",
+            visible=False,
         )
+
+        # time.sleep(0.5)
+        # await self.progress.update(task_id, visible=False)
         logger.debug(_("下载完成, 文件已保存为 {0}").format(full_path))
 
     async def download_m3u8_stream(
@@ -457,6 +466,8 @@ class BaseDownloader(BaseCrawler):
                 completed=1,
             )
             await self.progress.update(task_id, state="completed")
+            time.sleep(0.5)
+            await self.progress.update(task_id, visible=False)
         else:
             task_id = await self.progress.add_task(
                 description=_("[  {0}  ]:").format(file_type),
@@ -502,8 +513,11 @@ class BaseDownloader(BaseCrawler):
                 start=True,
                 total=1,
                 completed=1,
+                visible=False,
             )
             await self.progress.update(task_id, state="completed")
+            time.sleep(0.5)
+            await self.progress.update(task_id, visible=False)
         else:
             task_id = await self.progress.add_task(
                 description=_("[  {0}  ]:").format(file_type),
@@ -548,8 +562,11 @@ class BaseDownloader(BaseCrawler):
                 start=True,
                 total=1,
                 completed=1,
+                visible=False,
             )
             await self.progress.update(task_id, state="completed")
+            time.sleep(0.5)
+            await self.progress.update(task_id, visible=False)
         else:
             task_id = await self.progress.add_task(
                 description=_("[  {0}  ]:").format(file_type),
